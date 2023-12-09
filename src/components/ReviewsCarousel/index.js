@@ -1,66 +1,74 @@
 // Write your code here
+
 import {Component} from 'react'
+
 import './index.css'
 
 class ReviewsCarousel extends Component {
-  state = {review: 0}
+  state = {index: 0}
+
+  reviewContainer = reviewData => {
+    const {imgUrl, username, companyName, description} = reviewData
+
+    return (
+      <div className="profile-container">
+        <img src={imgUrl} alt={username} className="profile-image" />
+        <p className="user-name">{username}</p>
+        <p className="company-name">{companyName}</p>
+        <p className="description">{description}</p>
+      </div>
+    )
+  }
 
   onRightClick = () => {
-    const {review} = this.state
+    const {index} = this.state
     const {reviewsList} = this.props
-
-    if (review < reviewsList.length - 1) {
-      this.setState(prevState => ({review: prevState.review + 1}))
+    if (index < reviewsList.length - 1) {
+      this.setState(prevState => ({index: prevState.index + 1}))
     }
   }
 
   onLeftClick = () => {
-    const {review} = this.state
-
-    if (review > 0) {
-      this.setState(prevState => ({review: prevState.review - 1}))
+    const {index} = this.state
+    if (index > 0) {
+      this.setState(prevState => ({index: prevState.index - 1}))
     }
   }
 
   render() {
-    const {review} = this.state
+    const {index} = this.state
     const {reviewsList} = this.props
-    const {imgUrl, username, companyName, description} = reviewsList
+    const reviewData = reviewsList[index]
 
     return (
-      <div className="mainBgContainer">
-        <div className="reviewContainer">
+      <div className="bg-container">
+        <div className="app-container">
           <h1 className="heading">Reviews</h1>
-          <div className="itemsAlign">
-            <button
-              type="button"
-              className="button"
-              data-testid="leftArrow"
-              onClick={this.onLeftClick}
-            >
-              <img
-                src="https://assets.ccbp.in/frontend/react-js/left-arrow-img.png"
-                alt="left arrow"
-              />
-            </button>
-            <div className="reviewItems">
-              <img src={imgUrl} alt={username} />
-              <p className="userName">{username}</p>
-              <p className="companyName">{companyName}</p>
-              <p className="description">{description}</p>
-            </div>
-            <button
-              type="button"
-              className="button"
-              data-testid="rightArrow"
-              onClick={this.onRightClick}
-            >
-              <img
-                src="https://assets.ccbp.in/frontend/react-js/right-arrow-img.png"
-                alt="right arrow"
-              />
-            </button>
-          </div>
+        </div>
+        <div className="review-container">
+          <button
+            type="button"
+            className="button"
+            data-testid="leftArrow"
+            onClick={this.onLeftClick}
+          >
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/left-arrow-img.png"
+              alt="left arrow"
+            />
+          </button>
+          {this.reviewContainer(reviewData)}
+          <button
+            type="button"
+            className="button"
+            data-testid="rightArrow"
+            onClick={this.onRightClick}
+          >
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/right-arrow-img.png"
+              alt="right arrow"
+            />
+          </button>
         </div>
       </div>
     )
